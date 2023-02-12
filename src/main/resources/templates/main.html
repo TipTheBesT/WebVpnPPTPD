@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="main">
+
+        <div class="wrapper row1">
+            <main class="hoc container clear">
+                <!-- main body -->
+                <!-- ################################################################################################ -->
+
+                <h2>Список пользователей</h2>
+                <table>
+                    <tr>
+                        <th>Логин</th>
+                        <th>Пароль</th>
+                        <th>Тип подключения</th>
+                        <th>Разрешенные IP</th>
+                        <th>Действие</th>
+                    </tr>
+
+                    <tr th:each="user : ${userList}">
+                        <td th:text="${user.login}"></td>
+                        <td th:text="${user.password}"></td>
+                        <td th:text="${user.typeVPN}"></td>
+                        <td th:text="${user.host}"></td>
+                        <td>
+                            <ul class="nospace inline pushright">
+                                <li><a class="btn inverse" th:href="@{/user/del/(login=${user.login})}">Удалить</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <div id="comments">
+                    <h3 style="margin-top: 3em;">Добавить пользователя VPN</h3>
+                    <form action="#" th:action="@{/user/add/}" th:object="${user}" method="post">
+                        <div class="one_quarter first">
+                            <label for="login">Логин <span>*</span></label>
+                            <input id="login" name="login" type="text" th:field="*{login}" required>
+                        </div>
+
+                        <div class="one_quarter">
+                            <label for="password">Пароль <span>*</span></label>
+                            <input type="text" name="password" id="password" th:field="*{password}" required>
+                        </div>
+
+                        <div class="one_quarter">
+                            <label for="typeVPN">Тип VPN <span>*</span></label>
+                            <input id="typeVPN" type="text" th:value="*{typeVPN}" th:field="*{typeVPN}" required disabled>
+                        </div>
+
+                        <div class="one_quarter">
+                            <label for="host">Разрешенные IP <span>*</span></label>
+                            <input id="host" type="text" th:value="*{host}" th:field="*{host}" required>
+                        </div>
+                        <div class="right">
+                            <input type="submit" value="Добавить"/>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- ################################################################################################ -->
+                <!-- / main body -->
+                <div class="clear"></div>
+            </main>
+        </div>
+        <!-- ################################################################################################ -->
+        <!-- ################################################################################################ -->
+        <!-- ################################################################################################ -->
+        <div class="wrapper row0 bgded" style="background-image:url('/images/backgrounds/servers.png');">
+            <div id="pageintro" class="hoc clear">
+                <!-- ################################################################################################ -->
+                <article>
+                    <div class="overlay inspace-30 btmspace-30">
+                        <p class="font-xs nospace">service pptpd status</p>
+                        <h2 class="heading">Статус pptpd</h2>
+                        <p th:utext="${serverStatusError}" ></p>
+                        <p th:utext="${serverStatusAnswer}" ></p>
+                    </div>
+                    <footer>
+                        <ul class="nospace inline pushright">
+                            <li><a class="btn inverse" href="/pptpd/start/">Запустить</a></li>
+                            <li><a class="btn inverse" href="/pptpd/stop/">Остановить</a></li>
+                            <li><a class="btn" href="/pptpd/start/">Перезапустить</a></li>
+                        </ul>
+                    </footer>
+                </article>
+                <!-- ################################################################################################ -->
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
